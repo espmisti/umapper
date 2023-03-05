@@ -1,5 +1,7 @@
 <img src="https://sun9-80.userapi.com/impg/JZaZj7BfrN33x8NtB1bH_WBFCyIlgkXwswMaXA/OWtM8sdRiCo.jpg?size=2000x40&quality=96&sign=633ed80d7c13defcddec353e11f79d5b&type=album" />
-<h1 align="center">UMapper</h1>
+<div align="center">
+<img src="https://psv4.userapi.com/c236331/u399214939/docs/d44/854c2d8d7207/logo.png?extra=0CpTekVy5wBLnpZPNTTLmwCNRZmNkNqiy_YqSwZSrkTUiBOQcmMyL9XHvTrrZr98Q2IHmnwg_oX_Hvt8X0CRZa7Kn2EueBSu-CYnrKp3b3A3d5gad19EqpU8A3Fn0sL661OKXmd4ifMTQlBSlgcmtwrY" />
+</div>
 <div align="center">A convenient mapper for automatically transferring constructor parameters from one Data Class to a similar one or with similar fields</div>
 
 ## Using in your projects
@@ -18,7 +20,7 @@ data class PersonFirst(
     val isAdmin: Boolean
 )
 ```
-The second class, for example, will not have the `password` field
+The second class, for example, will not have the `lastname` field
 ```kotlin
 data class PersonSecond(
     val name: String,

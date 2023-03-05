@@ -3,6 +3,7 @@ package com.espmisti.umapper
 import java.lang.reflect.Field
 import kotlin.reflect.KClass
 import kotlin.reflect.KParameter
+import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 
@@ -43,16 +44,32 @@ object UMapper {
     }
 
     fun <From : Any, To : Any> map(fromClazz: From, toClazz: KClass<To>): To {
-        val field = fromClazz.searchForIdenticalFields(toClazz.java)
-        val resultMap = mutableMapOf<KParameter, Any?>()
-        toClazz.primaryConstructor?.parameters?.map { param ->
-            if (field[param.name] != null)
-                resultMap[param] = field[param.name]
-            else
+        val response = mutableMapOf<KParameter, Any?>()
+        val map = fromClazz.searchForIdenticalFields(toClazz.java)
+        val parameters = toClazz.primaryConstructor?.parameters
+        parameters?.map { param ->
+            val instance = map[param.name]
+            if (instance != null) {
+                when (instance) {
+                    is List<*> -> {
+                        val mutableList = mutableListOf<Any?>()
+                        instance.forEach {
+                            if (it != null) mutableList.add(it)
+                            else mutableList.add(null)
+                        }
+                        response[param] = mutableList
+                    }
+                    else -> response[param] = instance
+                }
+            } else {
                 if (param.type.isMarkedNullable)
-                    resultMap[param] = null
+                    response[param] = null
+                else
+                    throw MapperException(message = "The field that came from From is null, and the one you want to pass to is Non-Nullable")
+            }
         }
-        return toClazz.primaryConstructor?.callBy(resultMap) ?: throw Exception("error")
+        return if (response.isNotEmpty()) toClazz.primaryConstructor?.callBy(response) ?: throw MapperException(message = "Mapper returned an error")
+        else toClazz.createInstance()
     }
 
     /**

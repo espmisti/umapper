@@ -7,7 +7,7 @@
 ## Using in your projects
 
 - Make sure your classes should be data classes
-- There should be no nested classes and lists (in the future it will be possible to use)
+- There should be no nested classes (in the future it will be possible to use)
 - The fields passed must not be null if the other class field is Non-Nullable
 
 ### Example:
@@ -59,7 +59,7 @@ PersonSecond("Ivan", 123456, true)
 Add dependencies:
 ```kotlin
 dependencies {
-    implementation 'com.github.espmisti:umapper:0.1.0'
+    implementation 'com.github.espmisti:umapper:0.1.1'
 }
 ```
 Add it in your root build.gradle at the end of repositories:
